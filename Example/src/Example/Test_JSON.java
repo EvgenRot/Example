@@ -12,7 +12,7 @@ import org.json.simple.parser.ParseException;
 
 public class Test_JSON {
     public static void main(String[] args) {
-        String fileName = "Example/example1.txt";
+        String fileName = "example1.txt";
 
         JSONObject obj = new JSONObject();
         obj.put("Novel Name", "Godaan");

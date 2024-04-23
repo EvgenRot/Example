@@ -50,8 +50,8 @@ public class BankAccount implements Serializable {
             System.out.println("Вы уже закрыли свой счет");
         }else {
             System.out.println("!!!!!!Идет процесс закрытия вашего счета!!!!!! " + getAccountType());
-            System.out.println("Ваш конечный баланс с процентами " + getFinalBalance());
-            this.currentBalance = 0;
+ //           System.out.println("Ваш конечный баланс с процентами " + getFinalBalance());
+ //           this.currentBalance = 0;
             this.isAccountClosed = true;
             System.out.println("Успешно закрыто ваш счет " + getAccountType());
         }

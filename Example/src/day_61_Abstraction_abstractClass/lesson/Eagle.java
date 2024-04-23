@@ -1,4 +1,4 @@
-package day_61_Abstraction_abstractClass.employee.lesson;
+package day_61_Abstraction_abstractClass.lesson;
 
 public abstract class Eagle extends Bird{
 

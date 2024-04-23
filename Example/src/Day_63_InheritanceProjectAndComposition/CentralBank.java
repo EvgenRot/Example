@@ -15,7 +15,7 @@ public abstract class CentralBank implements ICentralBank, Serializable {
         this.bankName = bankName;
     }
 
-    public int createUserAccount(String name, String pass, String accountType){
+    public int createUserAccount(String name, String pass, String accountType) {
 
         int accountID = currentUserID;
         currentUserID = (int) (currentUserID + 1); // currentUserID should be unique
@@ -30,45 +30,50 @@ public abstract class CentralBank implements ICentralBank, Serializable {
     }
 
     public void deposit(int accountID, double depositvalue) {
-        // TODO find account
-        ListIterator<BankAccount> iterator = accounts.listIterator();
-        while (iterator.hasNext()) {
-            BankAccount person = iterator.next();
-            if (person.getAccountID() == accountID) {
-                deposit_impl(person, depositvalue);
-                System.out.println("Balance on your account: " + person.getCurrentBalance());
-                break;
-            }
+        BankAccount person = getUserByID(accountID);
+        if (person == null) {
+            System.out.println("User not found");
+            return;
+        } else if(person.isAccountClosed()) {
+            System.out.println("Account closed");
+            return;
         }
+        deposit_impl(person, depositvalue);
+        System.out.println("Balance on your account: " + person.getCurrentBalance());
     }
+
 
     public boolean withdraw(int accountID, double withdrawValue) {
-        // TODO find account
-        ListIterator<BankAccount> iterator = accounts.listIterator();
-        while (iterator.hasNext()) {
-            BankAccount person = iterator.next();
-            if (person.getAccountID() == accountID) {
-                boolean result = withdraw_impl(person, withdrawValue);
-                System.out.println("Balance on your account: " + person.getCurrentBalance());
-                return result;
-            }
+
+        BankAccount person = getUserByID(accountID);
+        if (person == null) {
+            System.out.println("User not found");
+            return false;
+        } else if(person.isAccountClosed()) {
+            System.out.println("Account closed");
+            return false;
         }
-        return false;
+        boolean result = withdraw_impl(person, withdrawValue);
+        System.out.println("Balance on your account: " + person.getCurrentBalance());
+        return result;
     }
 
-    public void closeAccount(int accountID){
-        // TODO find account
-        // TODO call closed method account project
-        ListIterator<BankAccount> iterator = accounts.listIterator();
-        while (iterator.hasNext()) {
-            BankAccount person = iterator.next();
-            if (person.getAccountID() == accountID) {
-                person.closeAccount();
-                break;
-            }
+    public void closeAccount(int accountID) {
+        BankAccount person = getUserByID(accountID);
+        if (person == null) {
+            System.out.println("User not found");
+            return;
+        } else if(person.isAccountClosed()) {
+            System.out.println("Account closed");
+            return;
         }
-     }
-
+        System.out.println("Starting of closing account");
+        System.out.println("Balance on your account: " + person.getCurrentBalance());
+        deposit(accountID,person.getCurrentBalance() * (person.getReturnRate() - 1.0));
+        System.out.println("Balance with percent(%): " + person.getCurrentBalance());
+        withdraw(accountID,person.getCurrentBalance());
+        person.closeAccount();
+    }
 
     protected BankAccount getUserByID(int accountID) {
         ListIterator<BankAccount> iterator = accounts.listIterator();
@@ -83,7 +88,7 @@ public abstract class CentralBank implements ICentralBank, Serializable {
 
     public final BankAccountPublicData tryGetUserWithCredentials(int accountID, String pass) {
         BankAccount person = getUserByID(accountID);
-        if(person == null){
+        if (person == null) {
             return null;
         }
         if (person.getPass().equals(pass)) {
@@ -95,11 +100,19 @@ public abstract class CentralBank implements ICentralBank, Serializable {
         return null;
     }
 
-    public boolean exists(int accountID){
+    public boolean exists(int accountID) {
         BankAccount person = getUserByID(accountID);
-        if(person == null){
+        if (person == null) {
             return false;
         }
         return true;
+    }
+    public void debugPrintAvailablePersons(){
+        for (BankAccount person : accounts) {
+            if (!person.isAccountClosed()) {
+                System.out.println("Account: " + person.getAccountID() +
+                        ", User: " + person.getName() + ", pass: " + person.getPass());
+            }
+        }
     }
 }

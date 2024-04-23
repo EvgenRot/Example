@@ -31,10 +31,11 @@ public class SberBank extends CentralBank {
             System.out.println("Вы сняли со своего счета сумму " + withdrawValue + ", ваш текущий " +
                     "счет " + person.getCurrentBalance());
         }else {
-            person.withdraw(withdrawValue + person.getWithdrawExpense());
-            System.out.println("Вы сняли со своего счета сумму " + withdrawValue + " и ваш расход снятия " +
-                    "больше или равно 1000, " + person.getWithdrawExpense() +
-                    " , ваш текущий счет " + person.getCurrentBalance());
+            double finalWithdrawValue = Math.min(person.getCurrentBalance(),
+                    withdrawValue + person.getWithdrawExpense());
+            person.withdraw(finalWithdrawValue);
+            System.out.println("Вы сняли со своего счета сумму " + (finalWithdrawValue - person.getWithdrawExpense()) + " и ваш расход снятия " +
+                    person.getWithdrawExpense() + " , ваш текущий счет " + person.getCurrentBalance());
         }
         return true;
     }

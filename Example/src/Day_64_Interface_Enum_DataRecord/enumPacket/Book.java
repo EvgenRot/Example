@@ -11,13 +11,16 @@ public class Book {
     public static void main(String[] args) {
 
         String java = Book.JAVA;
+        System.out.println("Book method " + java);
+
         Books java1 = Books.JAVA;
+        System.out.println("Books method " + java1);
 
         Books[] values = Books.values();
         System.out.println(Arrays.toString(values));
 
-        for (Books book: values){
-            System.out.println(book);
+        for (Books books: values){
+            System.out.println(books);
         }
     }
 }

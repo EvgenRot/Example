@@ -8,7 +8,6 @@ public class CityGroup extends CentralBank{
 
     @Override
     public void deposit_impl(BankAccount person, double depositValue) {
-        //TODO: реализовать функцию для ввода depositValue со стороны клиента
         if (depositValue < 2000){
             person.deposit(depositValue);
             System.out.println("Вы пополнили свой счет на сумму " + depositValue + ", ваш текущий " +
@@ -23,7 +22,6 @@ public class CityGroup extends CentralBank{
 
     @Override
     public boolean withdraw_impl(BankAccount person, double withdrawValue) {
-
         if(withdrawValue > person.getCurrentBalance()){
             System.out.println("Not enough money to withdraw cash!");
             return false;
@@ -33,10 +31,11 @@ public class CityGroup extends CentralBank{
             System.out.println("Вы сняли со своего счета сумму " + withdrawValue + ", ваш текущий " +
                     "счет " + person.getCurrentBalance());
         }else {
-            person.withdraw(withdrawValue + person.getWithdrawExpense());
-            System.out.println("Вы сняли со своего счета сумму " + withdrawValue + " и ваш расход снятия " +
-                    "больше или равно 1000, " + person.getWithdrawExpense() +
-                    " , ваш текущий счет " + person.getCurrentBalance());
+            double finalWithdrawValue = Math.min(person.getCurrentBalance(),
+                    withdrawValue + person.getWithdrawExpense());
+            person.withdraw(finalWithdrawValue);
+            System.out.println("Вы сняли со своего счета сумму " + (finalWithdrawValue - person.getWithdrawExpense()) + " и ваш расход снятия " +
+                    person.getWithdrawExpense() + " , ваш текущий счет " + person.getCurrentBalance());
         }
         return true;
     }
@@ -63,9 +62,4 @@ public class CityGroup extends CentralBank{
                 System.out.println("!!!! НЕДЕЙСТВИТЕЛЬНЫЙ ТИП СЧЕТА!!!");
         }
     }
-//
-//    @Override
-//    public double getFinalBalance() {
-//        return super.getFinalBalance();
-//    }
 }

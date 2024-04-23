@@ -3,7 +3,6 @@ package Day_63_InheritanceProjectAndComposition;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class CentralBankMain {
@@ -24,6 +23,9 @@ public class CentralBankMain {
             readData(fileName);
         }
         System.out.println("Hello!");
+        for (CentralBank bank : banks) {
+            bank.debugPrintAvailablePersons();
+        }
         int user_account = 0;
         Scanner scanner = new Scanner(System.in);
 
@@ -48,7 +50,8 @@ public class CentralBankMain {
                     System.out.println("Welcome, " + user.getName());
                     System.out.println("Your balance " + user.getBalance());
                     System.out.println("Withdraw or deposit cash? \n 1- Withdraw, " +
-                            "2 - Deposit, 3 - Transfer to another account, 4 - Cancel");
+                            "2 - Deposit, 3 - Transfer to another account, 4 - Close account, Any other - Cancel");
+                    alarmData(scanner);
                     int operation = scanner.nextInt();
                     switch (operation) {
                         case 1: {
@@ -91,17 +94,20 @@ public class CentralBankMain {
                             }
                             if(bankSelected.withdraw(user_account, amount)) {
                                 bankTransferSelected.deposit(transfer, amount);
+                                System.out.println("Transfer " + amount + " to account " + transfer);
                             }
-                            System.out.println("Transfer " + amount + " to account " + transfer);
                             break;
                         }
                         case 4: {
-                            System.out.println("Balance on your account: " + user.getBalance());
+                            bankSelected.closeAccount(user_account);
                             break;
                         }
+//                        default: {
+//                            break;
+//                        }
                     }
             } else {
-                System.out.println("Invalid accountID!");
+                System.out.println("Invalid accountID or pass!");
             }
             System.out.println("Finish work? Yes - 1  No - 2 ");
             byte end_job = scanner.nextByte();
@@ -174,37 +180,4 @@ public class CentralBankMain {
             scanner.next();
         }
     }
-
-//    private static void changeData(List<CentralBank> users, String user_name, String user_pass,
-//                                   double user_balance, double user_account) {
-//
-//        // SEARCH AND REPLACE IN AN ARRAYLIST USING ITERATOR
-//        ListIterator<CentralBank> iterator = users.listIterator();
-//        while (iterator.hasNext()) {
-//            CentralBank person = iterator.next();
-//            if (person.getName().equals(user_name)) {
-//                int indexArrayList = users.indexOf(person);
-//                List<CentralBank> users_new = new ArrayList<>();     //creating a helper list users_new
-//                users_new.add(new CentralBank(user_name, user_pass, user_balance, (int) user_account));
-//                users.remove(indexArrayList);                   // delete old string
-//                users.addAll(indexArrayList, users_new);        //insert new string
-//                break;
-//            }
-//        }
-//    }
-//
-//        person1.deposit(2000);
-//        person1.withdraw(1000);
-//        System.out.println("oleg.getFinalBalance() = " + person1.getFinalBalance());
-//        person1.closeAccount();
-//        System.out.println(person1);
-//
-//        System.out.println("==================================================");
-//
-//        person2.deposit(3000);
-//        person2.withdraw(2000);
-//        System.out.println("denis.getFinalBalance() = " + person2.getFinalBalance());
-//        person2.closeAccount();
-//
-//        System.out.println(person2);
 }

@@ -1,4 +1,4 @@
-package day_61_Abstraction_abstractClass.employee;
+package day_61_Abstraction_abstractClass.lesson;
 
 public class AbstractMain {
 
