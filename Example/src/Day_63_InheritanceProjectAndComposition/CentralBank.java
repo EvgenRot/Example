@@ -18,7 +18,7 @@ public abstract class CentralBank implements ICentralBank, Serializable {
     public int createUserAccount(String name, String pass, String accountType) {
 
         int accountID = currentUserID;
-        currentUserID = (int) (currentUserID + 1); // currentUserID should be unique
+        currentUserID ++; // currentUserID should be unique
         BankAccount person = new BankAccount();
         person.setName(name);
         person.setPass(pass);

@@ -10,7 +10,7 @@ public class CentralBankMain {
     static List<CentralBank> banks = new ArrayList();
 
     public static void main(String[] args) {
-        // ATM Simulator
+        // Bank Account Simulator
         // check the presence of the data file and if it is not there, create it
         String fileName = "test.json";
         File file = new File(fileName);
@@ -46,66 +46,64 @@ public class CentralBankMain {
                     break;
                 }
             }
-            if (user != null)  {
-                    System.out.println("Welcome, " + user.getName());
-                    System.out.println("Your balance " + user.getBalance());
-                    System.out.println("Withdraw or deposit cash? \n 1- Withdraw, " +
-                            "2 - Deposit, 3 - Transfer to another account, 4 - Close account, Any other - Cancel");
-                    alarmData(scanner);
-                    int operation = scanner.nextInt();
-                    switch (operation) {
-                        case 1: {
-                            System.out.println("Enter withdrawal amount: ");
+            if (user != null) {
+                System.out.println("Welcome, " + user.getName());
+                System.out.println("Your balance " + user.getBalance());
+                System.out.println("Withdraw or deposit cash? \n 1- Withdraw, " +
+                        "2 - Deposit, 3 - Transfer to another account, 4 - Close account, Any other - Cancel");
+                alarmData(scanner);
+                int operation = scanner.nextInt();
+                switch (operation) {
+                    case 1: {
+                        System.out.println("Enter withdrawal amount: ");
+                        alarmData(scanner);
+                        int amount = scanner.nextInt();
+                        bankSelected.withdraw(user_account, amount);
+                        break;
+                    }
+                    case 2: {
+                        System.out.println("Enter deposit amount: ");
+                        alarmData(scanner);
+                        int amount = scanner.nextInt();
+                        bankSelected.deposit(user_account, amount);
+                        break;
+                    }
+                    case 3: {
+                        System.out.println("Enter the transfer amount: ");
+                        alarmData(scanner);
+                        int amount = scanner.nextInt();
+                        CentralBank bankTransferSelected = null;
+                        int transfer = 0;
+                        while (true) {
+                            System.out.println("Specify the recipient's account: ");
                             alarmData(scanner);
-                            int amount = scanner.nextInt();
-                            bankSelected.withdraw(user_account, amount);
-                            break;
-                        }
-                        case 2: {
-                            System.out.println("Enter deposit amount: ");
-                            alarmData(scanner);
-                            int amount = scanner.nextInt();
-                            bankSelected.deposit(user_account,amount);
-                            break;
-                        }
-                        case 3: {
-                            System.out.println("Enter the transfer amount: ");
-                            alarmData(scanner);
-                            int amount = scanner.nextInt();
-                            CentralBank bankTransferSelected = null;
-                            int transfer = 0;
-                            while (true){
-                                System.out.println("Specify the recipient's account: ");
-                                alarmData(scanner);
-                                transfer = scanner.nextInt();
+                            transfer = scanner.nextInt();
 
-                                // select from the data array by user account
+                            // select from the data array by user account
 
-                                for (CentralBank bank : banks) {
-                                    if(bank.exists(transfer)) {
-                                        bankTransferSelected = bank;
-                                        break;
-                                    };
-                                }
-                                if(bankTransferSelected != null){
+                            for (CentralBank bank : banks) {
+                                if (bank.exists(transfer)) {
+                                    bankTransferSelected = bank;
                                     break;
                                 }
-                                System.out.println("Invalid account!");
+                                ;
                             }
-                            if(bankSelected.withdraw(user_account, amount)) {
-                                bankTransferSelected.deposit(transfer, amount);
-                                System.out.println("Transfer " + amount + " to account " + transfer);
+                            if (bankTransferSelected != null) {
+                                break;
                             }
-                            break;
+                            System.out.println("Invalid account!");
                         }
-                        case 4: {
-                            bankSelected.closeAccount(user_account);
-                            break;
+                        if (bankSelected.withdraw(user_account, amount)) {
+                            bankTransferSelected.deposit(transfer, amount);
+                            System.out.println("Transfer " + amount + " to account " + transfer);
                         }
-//                        default: {
-//                            break;
-//                        }
+                        break;
                     }
+                    case 4: {
+                        bankSelected.closeAccount(user_account);
+                        break;
+                    }
+                }
             } else {
                 System.out.println("Invalid accountID or pass!");
             }
