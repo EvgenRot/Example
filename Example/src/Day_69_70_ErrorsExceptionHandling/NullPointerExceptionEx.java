@@ -1,4 +1,4 @@
-package Day_69_ErrorsExceptionHandling;
+package Day_69_70_ErrorsExceptionHandling;
 
 import Day_56_Inheritance1.Persons.Person;
 

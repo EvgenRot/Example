@@ -12,7 +12,7 @@ public class CentralBankMain {
     public static void main(String[] args) {
         // Bank Account Simulator
         // check the presence of the data file and if it is not there, create it
-        String fileName = "test.json";
+        String fileName = "banks.bin";
         File file = new File(fileName);
         createNewFile(file);
 

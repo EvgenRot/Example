@@ -10,13 +10,12 @@ public class CityGroup extends CentralBank{
     public void deposit_impl(BankAccount person, double depositValue) {
         if (depositValue < 2000){
             person.deposit(depositValue);
-            System.out.println("Вы пополнили свой счет на сумму " + depositValue + ", ваш текущий " +
-                    "счет " + person.getCurrentBalance());
+            System.out.println("Счет " + person.getAccountID() + " пополнен на сумму " + depositValue + ", Текущий " +
+                    "баланс счета : " + person.getCurrentBalance());
         }else {
             person.deposit(depositValue + person.getDepositBonus());
-            System.out.println("Вы пополнили свой счет на сумму " + depositValue + " и ваш бонус пополнения " +
-                    "больше или равно 2000, " + person.getDepositBonus() +
-                    " , ваш текущий счет " + person.getCurrentBalance());
+            System.out.println("Счет " + person.getAccountID() + " пополнен на сумму " + depositValue + " и бонус " +
+                    "пополнения " + person.getDepositBonus() + " , Текущий баланс счета: " + person.getCurrentBalance());
         }
     }
 
@@ -28,14 +27,15 @@ public class CityGroup extends CentralBank{
         }
         if (withdrawValue < 1000){
             person.withdraw(withdrawValue);
-            System.out.println("Вы сняли со своего счета сумму " + withdrawValue + ", ваш текущий " +
-                    "счет " + person.getCurrentBalance());
+            System.out.println("Со счета " + person.getAccountID() + " списана сумма " +
+                    withdrawValue + " , Текущий баланс счета: " + person.getCurrentBalance());
         }else {
             double finalWithdrawValue = Math.min(person.getCurrentBalance(),
                     withdrawValue + person.getWithdrawExpense());
             person.withdraw(finalWithdrawValue);
-            System.out.println("Вы сняли со своего счета сумму " + (finalWithdrawValue - person.getWithdrawExpense()) + " и ваш расход снятия " +
-                    person.getWithdrawExpense() + " , ваш текущий счет " + person.getCurrentBalance());
+            System.out.println("Со счета " + person.getAccountID() + " списана сумма " +
+                    (finalWithdrawValue - person.getWithdrawExpense()) + " и ваш расход снятия " +
+                    person.getWithdrawExpense() + " , Текущий баланс счета: " + person.getCurrentBalance());
         }
         return true;
     }

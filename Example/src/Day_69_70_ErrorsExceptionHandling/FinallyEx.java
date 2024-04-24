@@ -1,4 +1,4 @@
-package Day_69_ErrorsExceptionHandling;
+package Day_69_70_ErrorsExceptionHandling;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,7 +10,7 @@ public class FinallyEx {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader("example.txt"));
+            reader = new BufferedReader(new FileReader("example1.txt"));
             String line = reader.readLine();
             while (line != null){
                 System.out.println(line);
